@@ -42,6 +42,7 @@ __all__ = [
     "env_bool",
     "env_str",
     "csv_ints",
+    "ENABLE_JISHAKU",
 ]
 
 
