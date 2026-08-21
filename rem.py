@@ -18,7 +18,17 @@ from discord.ext import commands
 from flask import Flask
 
 from core.rem import Rem
-from utils.config import COMMAND_LOG_IGNORE_IDS, COMMAND_LOG_WEBHOOK_URL, ENABLE_KEEP_ALIVE, LOG_LEVEL, NAME, PORT, PREFIX, TOKEN
+from utils.config import (
+    COMMAND_LOG_IGNORE_IDS,
+    COMMAND_LOG_WEBHOOK_URL,
+    ENABLE_KEEP_ALIVE,
+    ENABLE_JISHAKU,
+    LOG_LEVEL,
+    NAME,
+    PORT,
+    PREFIX,
+    TOKEN,
+)
 from utils import console
 from utils.startup import StartupError, validate_startup_config
 
@@ -224,7 +234,12 @@ def _register_signal_handlers(loop: asyncio.AbstractEventLoop) -> None:
 
 
 async def _run_bot() -> None:
-    await client.load_extension("jishaku")
+    if ENABLE_JISHAKU:
+        await client.load_extension("jishaku")
+        log.info("Jishaku loaded")
+    else:
+        log.info("Jishaku disabled")
+
     await client.start(TOKEN)
 
 
